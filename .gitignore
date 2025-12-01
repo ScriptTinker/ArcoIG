@@ -205,3 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# CSV datasets, I don't think they are useful anyways...
+.csv
