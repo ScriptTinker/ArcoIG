@@ -2,25 +2,36 @@ import subprocess
 import sys
 
 def install_requirements():
-    with open('requirements.txt', "r", encoding="utf-16") as f:
-        packages = f.read().splitlines()
-    
-    for package in packages:
-        try:
-            __import__(package.split('==')[0].split('>=')[0].split('<=')[0])
-            print(f"✓ {package} già installato")
-            return True
-        except ImportError:
-            print(f"Sto scaricando: {package}...")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-            return False
+    try:
+        with open('requirements.txt', "r", encoding="utf-16") as f:
+            packages = f.read().splitlines()
+        
+        all_installed = True
+        for package in packages:
+            package = package.strip()
+            if not package or package.startswith('#'):
+                continue
+                
+            package_name = package.split('==')[0].split('>=')[0].split('<=')[0]
+            try:
+                __import__(package_name.replace('-', '_'))
+                print(f"✓ {package} già installato")
+            except ImportError:
+                print(f"Sto scaricando: {package}...")
+                subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+                all_installed = False
+        
+        return all_installed
+    except Exception as e:
+        print(f"Errore: {e}")
+        return False
 
 if __name__ == "__main__":
-    print("Verifico l'istallazione del app")
-    install_requirements()
-    if install_requirements:
-        print("Verifica completata!")
+    print("Verifico l'installazione dell'app")
+    result = install_requirements()
+    if result:
+        print("Verifica completata! Tutti i pacchetti sono installati.")
         import main
     else:
-        print("Errore durante la verifica!")    
-    
+        print("Installazione completata! Avvio l'app...")
+        import main
