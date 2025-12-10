@@ -29,7 +29,7 @@ try:
         clear_btn="Cancella"
     )
 
-    demo.launch()
+    demo.launch(share=True)
 
 except Exception as e:
     print(f"Error: {e}")

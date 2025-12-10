@@ -208,4 +208,6 @@ __marimo__/
 
 # CSV datasets, I don't think they are useful anyways...
 .csv
-.env
+
+#Ignoring .env file cus u can't have my tokens
+var.env
