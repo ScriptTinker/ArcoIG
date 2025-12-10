@@ -1,30 +1,36 @@
 import gradio as gr
+from model import generator
 
 try:
-    def greet(name):
-        return f"Default"
+    def generate_image(prompt):
+        if not prompt.strip():
+            return None
+        
+        image = generator.generate(prompt)
+        return image
 
     demo = gr.Interface(
-        fn= greet,
+        fn=generate_image,
         inputs=[
-            gr.Textbox(label="Descrivi la tua immagine(Usa l'inglese per risultati migliori)",
-                    placeholder="Un calice di vino..."
-                    ),
-            ],
+            gr.Textbox(
+                label="Descrivi la tua immagine (Usa l'inglese per risultati migliori)",
+                placeholder="A wine glass on a wooden table...",
+                lines=3
+            ),
+        ],
         outputs=[
-            gr.Textbox(label="Questo è solo un test... ancora non genero immagini",
-                    placeholder="Work in progress..."
-                )
-            ],
+            gr.Image(label="Immagine generata", type="pil")
+        ],
         
-        title="Generatore di immagini",
-        description="Generatore d'immagine ancora in lavorazione...",
+        title="🎨 Generatore di immagini con Flux Schnell",
+        description="Genera immagini usando Flux Schnell. Il primo utilizzo potrebbe richiedere qualche minuto per caricare il modello.",
         
         submit_btn="Genera",
         clear_btn="Cancella"
-        )
+    )
 
     demo.launch()
 
 except Exception as e:
     print(f"Error: {e}")
+

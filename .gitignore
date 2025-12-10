@@ -208,3 +208,4 @@ __marimo__/
 
 # CSV datasets, I don't think they are useful anyways...
 .csv
+.env
