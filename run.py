@@ -1,3 +1,17 @@
+"""MOCKING DEPRECATED FUNCTION"""
+import sys
+from unittest.mock import MagicMock
+
+try:
+    import huggingface_hub.utils
+    if not hasattr(huggingface_hub.utils, 'reset_sessions'):
+        huggingface_hub.utils.reset_sessions = MagicMock()
+        print("✓ Mocked reset_sessions")
+except Exception as e:
+    print(f"Warning during mock setup: {e}")
+
+"""END MOCKING"""
+
 import subprocess
 import sys
 
