@@ -18,7 +18,11 @@ def install_requirements():
                 print(f"✓ {package} già installato")
             except ImportError:
                 print(f"Sto scaricando: {package}...")
-                subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+                try:
+                    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+                except Exception as e:
+                    print(F"ERRORE DURANTE L'INSTALLAZIONE DI {package}")
+
                 all_installed = False
         
         return all_installed
